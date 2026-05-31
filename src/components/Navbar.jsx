@@ -6,7 +6,7 @@ import { ShoppingBag, LogIn, UserPlus, LogOut, Store, User } from 'lucide-react'
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { getCartCount } = useCart();
+  const { getCartCount, clearCart } = useCart();
   const navigate = useNavigate();
 
   const handleLogout = () => {

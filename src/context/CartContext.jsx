@@ -1,26 +1,63 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
 
-  // Load cart from localStorage on startup
+  // Reactively load user-specific cart whenever the logged-in session changes
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch (e) {
-        localStorage.removeItem('cart');
+    if (user) {
+      // 1. Logged In: Load specific cart under cart_<username>
+      const savedUserCart = localStorage.getItem(`cart_${user.username}`);
+      if (savedUserCart) {
+        try {
+          setCartItems(JSON.parse(savedUserCart));
+        } catch (e) {
+          setCartItems([]);
+        }
+      } else {
+        // If no user-specific cart exists yet, see if there is a guest cart to adopt
+        const guestCart = localStorage.getItem('cart');
+        if (guestCart) {
+          try {
+            const parsed = JSON.parse(guestCart);
+            setCartItems(parsed);
+            // Persist it as the user's cart and clear the guest cart
+            localStorage.setItem(`cart_${user.username}`, guestCart);
+            localStorage.removeItem('cart');
+          } catch (e) {
+            setCartItems([]);
+          }
+        } else {
+          setCartItems([]);
+        }
+      }
+    } else {
+      // 2. Logged Out: Clear active cart items from current view and load guest cart
+      const guestCart = localStorage.getItem('cart');
+      if (guestCart) {
+        try {
+          setCartItems(JSON.parse(guestCart));
+        } catch (e) {
+          setCartItems([]);
+        }
+      } else {
+        setCartItems([]);
       }
     }
-  }, []);
+  }, [user]);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to specific localStorage slots whenever it updates
   const saveCart = (items) => {
     setCartItems(items);
-    localStorage.setItem('cart', JSON.stringify(items));
+    if (user) {
+      localStorage.setItem(`cart_${user.username}`, JSON.stringify(items));
+    } else {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
   };
 
   const addToCart = (product, quantity = 1) => {
@@ -29,7 +66,6 @@ export const CartProvider = ({ children }) => {
 
     if (existingIndex >= 0) {
       const newQty = newCart[existingIndex].quantity + quantity;
-      // Cap at stockQuantity if available
       if (product.stockQuantity !== undefined && newQty > product.stockQuantity) {
         newCart[existingIndex].quantity = product.stockQuantity;
       } else {
@@ -58,7 +94,6 @@ export const CartProvider = ({ children }) => {
 
     const newCart = cartItems.map((item) => {
       if (item.id === productId) {
-        // Enforce maximum stock boundary
         const finalQty = item.stockQuantity !== undefined ? Math.min(newQty, item.stockQuantity) : newQty;
         return { ...item, quantity: finalQty };
       }
@@ -69,7 +104,12 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
-    saveCart([]);
+    setCartItems([]);
+    if (user) {
+      localStorage.removeItem(`cart_${user.username}`);
+    } else {
+      localStorage.removeItem('cart');
+    }
   };
 
   const getCartTotal = () => {
