@@ -7,6 +7,7 @@ import Catalog from './pages/Catalog';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<Navigate to="/catalog" replace />} />
               </Routes>
             </main>

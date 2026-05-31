@@ -27,7 +27,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            <div className="hidden md:block ml-10">
+            <div className="hidden md:flex ml-10 items-center space-x-4">
               <NavLink
                 to="/catalog"
                 className={({ isActive }) =>
@@ -40,6 +40,20 @@ const Navbar = () => {
               >
                 Catalog
               </NavLink>
+              {user && user.role === 'ADMIN' && (
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    `px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'text-rose-400 bg-slate-800/40 border border-rose-500/20 shadow-[0_0_8px_rgba(244,63,94,0.15)]'
+                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/20'
+                    }`
+                  }
+                >
+                  Admin
+                </NavLink>
+              )}
             </div>
           </div>
 
