@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { ShoppingBag, Trash2, Plus, Minus, CreditCard, LogIn, AlertCircle, CheckCircle, ArrowLeft, RefreshCw } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE !== undefined ? import.meta.env.VITE_API_BASE : 'http://localhost:8000';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();

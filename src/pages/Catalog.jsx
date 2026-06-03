@@ -3,7 +3,7 @@ import axios from 'axios';
 import ProductCard, { ProductCardSkeleton } from '../components/ProductCard';
 import { ArrowUpDown, AlertCircle, ShoppingCart, SlidersHorizontal, RefreshCcw } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE !== undefined ? import.meta.env.VITE_API_BASE : 'http://localhost:8000';
 
 // Offline fallback mock data for seamless premium simulations when backend is offline/empty
 const OFFLINE_PRODUCTS = [
