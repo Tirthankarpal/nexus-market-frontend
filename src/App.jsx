@@ -15,11 +15,8 @@ function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col relative">
-            {/* Mesh Glow Background */}
-            <div className="bg-mesh"></div>
-            
-            {/* Central sticky Navigation */}
+          <div className="min-h-screen bg-obsidian-950 text-zinc-100 flex flex-col relative">
+            {/* Sticky Navigation */}
             <Navbar />
             
             {/* Page Content Shell */}
@@ -35,9 +32,9 @@ function App() {
               </Routes>
             </main>
             
-            {/* Ultra-sleek premium footer */}
-            <footer className="border-t border-slate-800/40 bg-obsidian-900/60 backdrop-blur-md py-6 text-center text-xs text-slate-500 z-10">
-              <p>&copy; {new Date().getFullYear()} Nexus Market. Microservice Orchestrated Front-End.</p>
+            {/* Minimal footer */}
+            <footer className="border-t border-zinc-800 bg-zinc-950 py-6 text-center text-xs text-zinc-500 z-10">
+              <p>&copy; {new Date().getFullYear()} Nexus Market. Clean & Minimalistic Design.</p>
             </footer>
           </div>
         </Router>
