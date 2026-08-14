@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Documentation
+nexus_market_complete_guide.md
+*.pptx

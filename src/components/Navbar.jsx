@@ -18,7 +18,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Minimal Brand Logo */}
+          {/* Brand Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2 group">
               <Store className="h-5 w-5 text-zinc-100 transition-colors" />
@@ -40,6 +40,20 @@ const Navbar = () => {
               >
                 Catalog
               </NavLink>
+              {user && (
+                <NavLink
+                  to="/orders"
+                  className={({ isActive }) =>
+                    `px-3 py-1.5 rounded-md text-xs font-medium border transition-all ${
+                      isActive
+                        ? 'text-zinc-100 bg-zinc-900 border-zinc-800'
+                        : 'text-zinc-400 border-transparent hover:text-zinc-100 hover:bg-zinc-900/40'
+                    }`
+                  }
+                >
+                  My Orders
+                </NavLink>
+              )}
               {user && user.role === 'ADMIN' && (
                 <NavLink
                   to="/admin"
